@@ -1,5 +1,10 @@
 {
     "require": {
-        "php-webdriver/webdriver": "^1.8"
+        "symfony/panther": "^0.7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "WhatsappClient\\": "src"
+        }
     }
 }

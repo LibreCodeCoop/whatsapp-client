@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "406ad7aabd5370ef89d331551c3fa852",
+    "content-hash": "4696599ae157705753e086241fa2a645",
     "packages": [
         {
             "name": "php-webdriver/webdriver",
