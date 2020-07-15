@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  php7:
+    build: ./.docker/php7
+    restart: always
+    volumes:
+      - ./:/whatsapp
+      - ~/.composer:/root/.composer
+    links:
+      - selenium-hub
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.17.0.1 remote_enable=1"
+
+  chrome:
+    image: selenium/node-chrome:3.141.59-20200525
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+
+
+  firefox:
+    image: selenium/node-firefox:3.141.59-20200525
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+
+  selenium-hub:
+    image: selenium/hub:3.141.59-20200525
+    ports:
+      - "4444:4444"
