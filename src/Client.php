@@ -14,12 +14,15 @@ class Client
      * @var PantherClient
      */
     private $client;
-    public function __construct($host, ?WebDriverCapabilities $capabilities = null)
+    private $sessionFile;
+    private $qrcodeCallback;
+    public function __construct($host, ?WebDriverCapabilities $capabilities = null, $sessionFile = '.session')
     {
         if (!$capabilities) {
             $capabilities = DesiredCapabilities::firefox();
             $capabilities->setCapability('moz:firefoxOptions', ['args' => ['-headless']]);
         }
+        $this->sessionFile = $sessionFile;
         $this->setClient(PantherClient::createSeleniumClient($host, $capabilities));
     }
 
@@ -31,26 +34,60 @@ class Client
         $this->client = $client;
     }
 
-    public function getClient()
+    public function setQrcodeCallback(Closure $closure)
     {
-        return $this->client;
+        $this->qrcodeCallback = $closure;
     }
 
-    public function login(Closure $callback)
+    public function sessionStart()
     {
-        $this->getClient()->request('GET', 'https://web.whatsapp.com/');
+        if (!$this->loadSessionFronFile()) {
+            $this->login();
+        }
+    }
+
+    private function loadSessionFronFile()
+    {
+        if (!file_exists($this->sessionFile)) {
+            return false;
+        }
+        $json = file_get_contents($this->sessionFile);
+        if (!$json) {
+            return false;
+        }
+        $this->client->request('GET', 'https://web.whatsapp.com/');
+        $this->client->executeScript(<<<SCRIPT
+            localStorage.clear()
+            let temp = $json
+            Object.keys(temp).map(function(objectKey, index) {
+                localStorage.setItem(objectKey, temp[objectKey])
+            });
+            SCRIPT
+        );
+        $this->client->request('GET', 'https://web.whatsapp.com/');
+        try {
+            $menu = $this->client->findElement(WebDriverBy::cssSelector('[data-testid="menu"][data-icon="menu"]'));
+        } catch (\Exception $e) { }
+        return !empty($menu);
+    }
+
+    private function login()
+    {
+        $this->client->request('GET', 'https://web.whatsapp.com/');
         $refBefore = '';
         do {
             try {
-                $element = $this->getClient()->findElement(WebDriverBy::cssSelector('.landing-main [data-ref]'));
+                $element = $this->client->findElement(WebDriverBy::cssSelector('.landing-main [data-ref]'));
                 $ref = $element->getAttribute('data-ref');
                 if ($refBefore != $ref) {
                     $refBefore = $ref;
-                    call_user_func($callback, $element->takeElementScreenshot(), $this);
+                    if ($this->qrcodeCallback) {
+                        call_user_func($this->qrcodeCallback, $element->takeElementScreenshot(), $this);
+                    }
                 }
             } catch (\Exception $e) { }
             try {
-                $menu = $this->getClient()->findElement(WebDriverBy::cssSelector('[data-testid="menu"][data-icon="menu"]'));
+                $menu = $this->client->findElement(WebDriverBy::cssSelector('[data-testid="menu"][data-icon="menu"]'));
             } catch (\Exception $e) { }
             sleep(1);
         } while(empty($menu));
@@ -58,6 +95,8 @@ class Client
 
     public function __destruct()
     {
-        $this->getClient()->quit();
+        $json = $this->client->executeScript('return localStorage');
+        file_put_contents($this->sessionFile, json_encode($json));
+        $this->client->quit();
     }
 }
