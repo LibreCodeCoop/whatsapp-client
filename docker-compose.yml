@@ -10,6 +10,7 @@ services:
       - selenium-hub
     environment:
       XDEBUG_CONFIG: "remote_host=172.17.0.1 remote_enable=1"
+    command: composer install
 
   chrome:
     image: selenium/node-chrome:3.141.59-20200525
