@@ -15,3 +15,8 @@ $WhatsappClient->setQrcodeCallback(function ($screenshot, $client) {
     
 });
 $WhatsappClient->sessionStart();
+
+// Send message
+$phoneNumber = '19999999999999';
+$text = 'Test message';
+$WhatsappClient->sendMessage($phoneNumber, $text);

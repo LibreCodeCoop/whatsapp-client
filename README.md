@@ -8,29 +8,21 @@ A client for WhatsApp web in PHP
 docker-compose up
 ```
 
-Save the follow PHP code content in file `test.php` and run:
+### Example of use
 
+Run this command and read the content of file example.php:
 ```bash
-docker-compose exec php7 php test.php
-```
-
-```php
-<?php
-
-use Facebook\WebDriver\Remote\DesiredCapabilities;
-use WhatsappClient\Client;
-
-require 'vendor/autoload.php';
-
-$WhatsappClient = new Client('http://172.17.0.1:4444/wd/hub');
-$WhatsappClient->setQrcodeCallback(function ($screenshot, $client) {
-    // image here
-});
-$WhatsappClient->sessionStart();
+docker-compose exec php7 php example.php
 ```
 
 ## Suggestions of new features
 
+* Tests. Sugestions:
+  * PHPUnit
+  * PHPCS
+  * PHPStan
+  * Psalm
+  * Phan
 * Send qrcode to a Telegram bot
 * Send message to person
 * Hook to intercept all messages and send to Telegram Bot in conversation with predefined Telegram user

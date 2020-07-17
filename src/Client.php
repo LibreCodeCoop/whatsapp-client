@@ -46,6 +46,33 @@ class Client
         }
     }
 
+    public function sendMessage(string $phoneNumber, string $message)
+    {
+        $message = urlencode($message);
+        $this->client->executeScript(<<<SCRIPT
+            aHref = document.getElementById('aHref');
+            if (aHref == null || typeof(aHref) == 'undefined') {
+                aHref = document.createElement('a');
+                exist = false;
+                aHref.appendChild(document.createTextNode('.'))
+            } else {
+                exist = true;
+            }
+            aHref.setAttribute('href', "https://wa.me/$phoneNumber?text=$message");
+            aHref.setAttribute('id', "aHref");
+            if (!exist) {
+                document.getElementsByTagName('span')[0].appendChild(aHref)
+            }
+            SCRIPT
+        );
+        $this->client
+            ->findElement(WebDriverBy::cssSelector('#aHref'))
+            ->click();
+        $this->client
+            ->findElement(WebDriverBy::cssSelector('footer button:not([tabindex])'))
+            ->click();
+    }
+
     private function loadSessionFronFile()
     {
         if (!file_exists($this->sessionFile)) {
