@@ -68,6 +68,12 @@ class Client
         $this->client
             ->findElement(WebDriverBy::cssSelector('#aHref'))
             ->click();
+        $error = $this->client
+            ->findElement(WebDriverBy::cssSelector('[data-animate-modal-body="true"]'))
+            ->getText();
+        if ($error) {
+            throw new \Exception($error, 1);
+        }
         $this->client
             ->findElement(WebDriverBy::cssSelector('footer button:not([tabindex])'))
             ->click();

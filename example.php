@@ -19,4 +19,8 @@ $WhatsappClient->sessionStart();
 // Send message
 $phoneNumber = '19999999999999';
 $text = 'Test message';
-$WhatsappClient->sendMessage($phoneNumber, $text);
+try {
+    $WhatsappClient->sendMessage($phoneNumber, $text);
+} catch (\Throwable $th) {
+    echo $th->getMessage();
+}
