@@ -10,7 +10,7 @@ docker-compose up
 
 ### Example of use
 
-Run this command and read the content of file example.php:
+Run this command and read the content of file [example.php](example.php):
 ```bash
 docker-compose exec php7 php example.php
 ```
