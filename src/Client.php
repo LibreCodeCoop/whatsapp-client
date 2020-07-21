@@ -34,7 +34,7 @@ class Client
         $this->client = $client;
     }
 
-    public function setQrcodeCallback(Closure $closure)
+    public function setQrcodeCallback($closure)
     {
         $this->qrcodeCallback = $closure;
     }
@@ -115,7 +115,7 @@ class Client
                 if ($refBefore != $ref) {
                     $refBefore = $ref;
                     if ($this->qrcodeCallback) {
-                        call_user_func($this->qrcodeCallback, $element->takeElementScreenshot(), $this);
+                        call_user_func_array($this->qrcodeCallback, [$element->takeElementScreenshot(), $this]);
                     }
                 }
             } catch (\Exception $e) { }
