@@ -12,7 +12,7 @@ docker-compose up
 
 ### Example of use
 
-Run this command and read the content of file example.php:
+Run this command and read the content of file [example.php](example.php):
 ```bash
 docker-compose exec php7 php example.php
 ```
@@ -26,7 +26,6 @@ docker-compose exec php7 php example.php
   * Psalm
   * Phan
 * Send qrcode to a Telegram bot
-* Send message to person
 * Hook to intercept all messages and send to Telegram Bot in conversation with predefined Telegram user
 * Respond message in Telegram bot and forward the response to WhatsApp contact
 * Define default reply message every time when receive new message in WhatsApp
