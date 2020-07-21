@@ -4,6 +4,8 @@ A client for WhatsApp web in PHP
 
 ## Run
 
+Copy the file `.env.example` to `.env` and put your Telegram Bot Token and the id of chat with your bot and go up the containers:
+
 ```bash
 docker-compose up
 ```

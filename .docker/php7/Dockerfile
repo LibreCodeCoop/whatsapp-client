@@ -10,6 +10,18 @@ RUN apt-get install -y \
         && docker-php-ext-install opcache \
         && docker-php-ext-install zip
 
+# Install GD
+RUN apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libxpm-dev
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ \
+                                --with-jpeg=/usr/include/ \
+                                --with-xpm=/usr/include/ \
+                                --enable-gd-jis-conv \
+    && docker-php-ext-install gd
+
 RUN pecl install xdebug-2.9.6 \
     && docker-php-ext-enable xdebug
 

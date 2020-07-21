@@ -4,23 +4,23 @@
 // Example:
 // java -jar selenium-server-standalone-3.141.59.jar
 
-use Facebook\WebDriver\Remote\DesiredCapabilities;
-use WhatsappClient\Client;
+use WhatsappClient\TelegramClient;
 
 require 'vendor/autoload.php';
 
-$capabilities = DesiredCapabilities::firefox();
-$WhatsappClient = new Client('http://172.17.0.1:4444/wd/hub', $capabilities);
-$WhatsappClient->setQrcodeCallback(function ($screenshot, $client) {
-    
-});
-$WhatsappClient->sessionStart();
+if (file_exists('.env')) {
+    $dotenv = Dotenv\Dotenv::createMutable(__DIR__);
+    $dotenv->load();
+}
+
+$TelegramClient = new TelegramClient();
+$TelegramClient->sessionStart();
 
 // Send message
 $phoneNumber = '19999999999999';
 $text = 'Test message';
 try {
-    $WhatsappClient->sendMessage($phoneNumber, $text);
+    $TelegramClient->sendMessage($phoneNumber, $text);
 } catch (\Throwable $th) {
     echo $th->getMessage();
 }
