@@ -2,7 +2,7 @@ version: '3.7'
 services:
   php7:
     build: ./.docker/php7
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./:/whatsapp
       - ~/.composer:/root/.composer
@@ -21,7 +21,6 @@ services:
     environment:
       - HUB_HOST=172.17.0.1
       - HUB_PORT=4444
-
 
   firefox:
     image: selenium/node-firefox:3.141.59-20200525
