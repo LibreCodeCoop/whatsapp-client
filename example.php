@@ -1,9 +1,6 @@
 <?php
 
-// Run Selenium in host before run this script if you need see the browser
-// Example:
-// java -jar selenium-server-standalone-3.141.59.jar
-
+use Facebook\WebDriver\Remote\DesiredCapabilities;
 use WhatsappClient\TelegramClient;
 
 require 'vendor/autoload.php';
@@ -13,7 +10,8 @@ if (file_exists('.env')) {
     $dotenv->load();
 }
 
-$TelegramClient = new TelegramClient();
+$capabilities = DesiredCapabilities::firefox();
+$TelegramClient = new TelegramClient('http://selenium-hub:4444/wd/hub', $capabilities);
 $TelegramClient->sessionStart();
 
 // Send message
