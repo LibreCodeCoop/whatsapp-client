@@ -17,6 +17,16 @@ Run this command and read the content of file [example.php](example.php):
 docker-compose exec php7 php example.php
 ```
 
+* List running browsers:
+
+http://localhost:4443/grid/console
+
+* View the browser:
+
+Open your VNC client and access the address localhost:port, the port is the number of port exposed in file docker-compose.yml for the choosed browser to use. Example: to see Firefox access localhost:5901, to see Chrome access localhost:5900.
+
+Default password is: **secret**
+
 ## Suggestions of new features
 
 * Tests. Sugestions:
