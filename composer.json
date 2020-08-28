@@ -5,6 +5,9 @@
         "irazasyed/telegram-bot-sdk": "^3.1",
         "vlucas/phpdotenv": "^5.1"
     },
+    "require-dev": {
+        "symfony/console": "^5.1"
+    },
     "autoload": {
         "psr-4": {
             "WhatsappClient\\": "src"

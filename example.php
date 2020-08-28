@@ -14,11 +14,6 @@ $capabilities = DesiredCapabilities::firefox();
 $TelegramClient = new TelegramClient('http://selenium-hub:4444/wd/hub', $capabilities);
 $TelegramClient->sessionStart();
 
-// Send message
-$phoneNumber = '19999999999999';
-$text = 'Test message';
-try {
-    $TelegramClient->sendMessage($phoneNumber, $text);
-} catch (\Throwable $th) {
-    echo $th->getMessage();
-}
+// $TelegramClient->observer();
+// $TelegramClient->WsapiWrapper->getProfilePicFromId('199999999999@c.us');
+$TelegramClient->WsapiWrapper->sendMessage('199999999999@c.us', '<3');

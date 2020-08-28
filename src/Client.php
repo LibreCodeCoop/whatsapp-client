@@ -7,6 +7,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverCapabilities;
 use Symfony\Component\Panther\Client as PantherClient;
+use WhatsappClient\webwhatsapi\Wrapper;
 
 class Client
 {
@@ -16,6 +17,12 @@ class Client
     private $client;
     private $sessionFile;
     private $qrcodeCallback;
+    private $logged = false;
+    private $running = false;
+    /**
+     * @var Wrapper
+     */
+    public $WsapiWrapper;
     public function __construct($host, ?WebDriverCapabilities $capabilities = null, $sessionFile = '.session')
     {
         if (!$capabilities) {
@@ -46,37 +53,13 @@ class Client
         }
     }
 
-    public function sendMessage(string $phoneNumber, string $message)
+    public function observer()
     {
-        $message = urlencode($message);
-        $this->client->executeScript(<<<SCRIPT
-            aHref = document.getElementById('aHref');
-            if (aHref == null || typeof(aHref) == 'undefined') {
-                aHref = document.createElement('a');
-                exist = false;
-                aHref.appendChild(document.createTextNode('.'))
-            } else {
-                exist = true;
-            }
-            aHref.setAttribute('href', "https://wa.me/$phoneNumber?text=$message");
-            aHref.setAttribute('id', "aHref");
-            if (!exist) {
-                document.getElementsByTagName('span')[0].appendChild(aHref)
-            }
-            SCRIPT
-        );
-        $this->client
-            ->findElement(WebDriverBy::cssSelector('#aHref'))
-            ->click();
-        $error = $this->client
-            ->findElement(WebDriverBy::cssSelector('[data-animate-modal-body="true"]'))
-            ->getText();
-        if ($error) {
-            throw new \Exception($error, 1);
+        $this->running = true;
+        while ($this->running) {
+            $jsMessages = $this->WsapiWrapper->getBufferedNewMessages();
+            sleep(2);
         }
-        $this->client
-            ->findElement(WebDriverBy::cssSelector('footer button:not([tabindex])'))
-            ->click();
     }
 
     private function loadSessionFronFile()
@@ -121,6 +104,7 @@ class Client
             } catch (\Exception $e) { }
             try {
                 $menu = $this->client->findElement(WebDriverBy::cssSelector('[data-testid="menu"][data-icon="menu"]'));
+                $this->WsapiWrapper = new Wrapper($this->client);
             } catch (\Exception $e) { }
             sleep(1);
         } while(empty($menu));
