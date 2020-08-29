@@ -14,6 +14,13 @@ $capabilities = DesiredCapabilities::firefox();
 $TelegramClient = new TelegramClient('http://selenium-hub:4444/wd/hub', $capabilities);
 $TelegramClient->sessionStart();
 
-// $TelegramClient->observer();
+$TelegramClient->loop(function(TelegramClient $client, $messages) {
+    foreach ($messages as $message) {
+        $client->telegram()->sendMessage([
+            'chat_id' => $_ENV['TELEGRAM_CHAT_ID'],
+            'text' => $message['body']
+        ]);
+    }
+});
 // $TelegramClient->WsapiWrapper->getProfilePicFromId('199999999999@c.us');
-$TelegramClient->WsapiWrapper->sendMessage('199999999999@c.us', '<3');
+// $TelegramClient->WsapiWrapper->sendMessage('199999999999@c.us', '<3');
