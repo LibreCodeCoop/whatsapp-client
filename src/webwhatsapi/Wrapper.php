@@ -22,7 +22,7 @@ class Wrapper extends JSAdapter
     private function loadWapi()
     {
         $this->availableFunctions = $this->client->executeScript(
-            file_get_contents(__DIR__.'/js/wsapi.js')."\n".
+            file_get_contents(__DIR__.'/js/wapi.js')."\n".
             'return Object.keys(window.WAPI);'
         );
     }
