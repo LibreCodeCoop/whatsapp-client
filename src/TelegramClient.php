@@ -3,20 +3,27 @@
 namespace WhatsappClient;
 
 use Facebook\WebDriver\WebDriverCapabilities;
+use Monolog\Formatter\HtmlFormatter;
+use Monolog\Handler\TelegramBotHandler;
+use Monolog\Logger;
 use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
 
 class TelegramClient extends Client
 {
+    /**
+     * @var Api
+     */
+    private $telegram;
     public function __construct($host, ?WebDriverCapabilities $capabilities = null, $sessionFile = '.session')
     {
         parent::__construct($host, $capabilities, $sessionFile);
+        $this->telegram = new Api($_ENV['TELEGRAM_BOT_TOKEN']);
         $this->setQrcodeCallback([$this, 'qrcodeCallback']);
     }
 
     public function qrcodeCallback($screenshot, $client)
     {
-        $telegram = new Api($_ENV['TELEGRAM_BOT_TOKEN']);
 
         $inputFile = new InputFile();
         $inputFile->setFilename('qrcode.png');
@@ -24,13 +31,13 @@ class TelegramClient extends Client
 
         static $messageId;
         if ($messageId) {
-            $telegram->deleteMessage([
+            $this->telegram->deleteMessage([
                 'chat_id' => $_ENV['TELEGRAM_CHAT_ID'],
                 'message_id' => $messageId,
             ]);
         }
 
-        $response = $telegram->sendPhoto([
+        $response = $this->telegram->sendPhoto([
             'chat_id' => $_ENV['TELEGRAM_CHAT_ID'], 
             'photo' => $inputFile
         ]);
@@ -53,6 +60,24 @@ class TelegramClient extends Client
         $image_data = ob_get_contents();
         ob_end_clean();
         return $image_data;
+    }
+
+    public function telegram()
+    {
+        return $this->telegram;
+    }
+
+    public function enableLog(array $settings = [])
+    {
+        parent::enableLog($settings);
+        $TelegramBotHandler = new TelegramBotHandler(
+            $_ENV['TELEGRAM_BOT_TOKEN'],
+            $_ENV['TELEGRAM_CHAT_ID'],
+            Logger::DEBUG,
+            true,
+            'HTML'
+        );
+        $this->logger->pushHandler($TelegramBotHandler);
     }
 
 }
