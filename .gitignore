@@ -3,3 +3,4 @@
 .session
 .env
 /src/webwhatsapi/js/wapi.js
+/log/
