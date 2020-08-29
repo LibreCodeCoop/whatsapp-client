@@ -2,12 +2,20 @@
 
 A client for WhatsApp web in PHP
 
-## Run
+## Firts run
 
-Copy the file `.env.example` to `.env` and put your Telegram Bot Token and the id of chat with your bot and go up the containers:
+
+Copy the file [`.env.example`](.env.example) to `.env` and put your Telegram Bot Token and the id of chat with your bot and go up the containers:
 
 ```bash
-docker-compose up
+docker-compose up -d
+docker-compose exec php7 ./bin/build
+```
+
+## Run
+
+```bash
+docker-compose up -d
 ```
 
 ### Example of use
