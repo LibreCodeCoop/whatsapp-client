@@ -26,7 +26,7 @@ class BuildCommand extends Command
         $output->writeln('Download JS dependency...');
 
         file_put_contents(
-            __DIR__.'/../webwhatsapi/js/wapi.js',
+            __DIR__ . '/../webwhatsapi/js/wapi.js',
             file_get_contents('https://raw.githubusercontent.com/mukulhase/WebWhatsapp-Wrapper/master/webwhatsapi/js/wapi.js')
         );
 
@@ -52,7 +52,7 @@ class BuildCommand extends Command
             {
             }
             CLASS;
-        file_put_contents(__DIR__.'/../webwhatsapi/JSAdapter.php', $class);
+        file_put_contents(__DIR__ . '/../webwhatsapi/JSAdapter.php', $class);
         
         $output->writeln('Done!');
         return Command::SUCCESS;

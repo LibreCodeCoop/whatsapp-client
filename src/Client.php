@@ -132,9 +132,10 @@ class Client
                     $popup = $this->client->findElement(WebDriverBy::cssSelector('[data-animate-modal-body="true"]'));
                     $errormsg = explode("\n", $popup->getText())[0];
                     $this->logger->info('Failure on load session: ' . $errormsg);
-                } catch (\Exception $noPopup) { }
+                } catch (\Exception $noPopup) {
+                }
             }
-        } while(!empty($noPopup) || $errormsg);
+        } while (!empty($noPopup) || $errormsg);
         if (empty($menu)) {
             $this->logger->info('Invalid session');
             return false;
@@ -157,12 +158,14 @@ class Client
                         call_user_func_array($this->qrcodeCallback, [$element->takeElementScreenshot(), $this]);
                     }
                 }
-            } catch (\Exception $e) { }
+            } catch (\Exception $e) {
+            }
             try {
                 $menu = $this->client->findElement(WebDriverBy::cssSelector('[data-testid="menu"][data-icon="menu"]'));
-            } catch (\Exception $e) { }
+            } catch (\Exception $e) {
+            }
             sleep(1);
-        } while(empty($menu));
+        } while (empty($menu));
     }
 
     public function __destruct()
