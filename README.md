@@ -39,7 +39,6 @@ Default password is: **secret**
 
 * [ ] Tests. Sugestions:
   * PHPUnit
-  * PHPCS
   * PHPStan
   * Psalm
   * Phan
