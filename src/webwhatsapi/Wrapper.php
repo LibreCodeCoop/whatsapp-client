@@ -1,4 +1,5 @@
 <?php
+
 namespace WhatsappClient\webwhatsapi;
 
 class Wrapper extends JSAdapter
@@ -9,7 +10,7 @@ class Wrapper extends JSAdapter
     private $client;
     /**
      * Available functions
-     * 
+     *
      * @var array
      */
     private $availableFunctions = [];
@@ -22,14 +23,14 @@ class Wrapper extends JSAdapter
     private function loadWapi()
     {
         $this->availableFunctions = $this->client->executeScript(
-            file_get_contents(__DIR__.'/js/wapi.js')."\n".
+            file_get_contents(__DIR__ . '/js/wapi.js') . "\n" .
             'return Object.keys(window.WAPI);'
         );
     }
 
     public function __call($method, $arguments)
     {
-        array_walk($arguments, function(&$arg) {
+        array_walk($arguments, function (&$arg) {
             $arg = is_string($arg) ? "'$arg'" : $arg;
         });
         $arguments[] = 'arguments[0]';

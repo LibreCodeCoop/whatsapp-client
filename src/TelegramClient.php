@@ -38,7 +38,7 @@ class TelegramClient extends Client
         }
 
         $response = $this->telegram->sendPhoto([
-            'chat_id' => $_ENV['TELEGRAM_CHAT_ID'], 
+            'chat_id' => $_ENV['TELEGRAM_CHAT_ID'],
             'photo' => $inputFile
         ]);
         $messageId = $response->getMessageId();
@@ -47,14 +47,14 @@ class TelegramClient extends Client
     private function addBorderToImageString($imageString, $border = 30)
     {
         $gd = imagecreatefromstring($imageString);
-        $width=ImageSx($gd);
-        $height=ImageSy($gd);
-        $img_adj_width=$width+(2*$border);
-        $img_adj_height=$height+(2*$border);
-        $newimage=imagecreatetruecolor($img_adj_width,$img_adj_height);
+        $width = ImageSx($gd);
+        $height = ImageSy($gd);
+        $img_adj_width = $width + (2 * $border);
+        $img_adj_height = $height + (2 * $border);
+        $newimage = imagecreatetruecolor($img_adj_width, $img_adj_height);
         $border_color = imagecolorallocate($newimage, 255, 255, 255);
-        imagefilledrectangle($newimage,0,0,$img_adj_width,$img_adj_height,$border_color); 
-        imageCopyResized($newimage,$gd,$border,$border,0,0,$width,$height,$width,$height);
+        imagefilledrectangle($newimage, 0, 0, $img_adj_width, $img_adj_height, $border_color);
+        imageCopyResized($newimage, $gd, $border, $border, 0, 0, $width, $height, $width, $height);
         ob_start();
         imagepng($newimage);
         $image_data = ob_get_contents();
@@ -79,5 +79,4 @@ class TelegramClient extends Client
         );
         $this->logger->pushHandler($TelegramBotHandler);
     }
-
 }
