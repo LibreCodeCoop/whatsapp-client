@@ -6,11 +6,16 @@
         "vlucas/phpdotenv": "^5.1"
     },
     "require-dev": {
-        "symfony/console": "^5.1"
+        "symfony/console": "^5.1",
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "autoload": {
         "psr-4": {
             "WhatsappClient\\": "src"
         }
+    },
+    "scripts" : {
+        "phpcs" : "phpcs --standard=PSR12 -n src",
+        "phpcbf" : "phpcbf --standard=PSR12 -n src"
     }
 }
