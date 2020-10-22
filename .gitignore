@@ -4,3 +4,4 @@
 .env
 /src/webwhatsapi/js/wapi.js
 /log/
+.phpunit.result.cache
