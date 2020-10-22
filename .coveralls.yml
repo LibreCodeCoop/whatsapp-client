@@ -1,0 +1,4 @@
+service_name: travis-pro
+
+coverage_clover: tests/log/clover.xml
+json_path: tests/log/coveralls-upload.json
