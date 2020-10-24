@@ -1,0 +1,13 @@
+language: php
+php:
+  - 7.3
+  - 7.4
+
+before_script:
+  - composer install --dev --no-interaction
+
+script:
+  - composer test
+
+after_success:
+  - php vendor/bin/php-coveralls --verbose
