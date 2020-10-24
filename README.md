@@ -1,3 +1,6 @@
+[![Coverage Status](https://coveralls.io/repos/github/LyseonTech/whatsapp-client/badge.svg?branch=master)](https://coveralls.io/github/LyseonTech/whatsapp-client?branch=master)
+
+
 # WhatsApp web php client
 
 A client for WhatsApp web in PHP
