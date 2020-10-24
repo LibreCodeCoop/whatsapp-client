@@ -8,7 +8,6 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         forceCoversAnnotation="true"
          failOnRisky="true"
          failOnWarning="true"
          stopOnError="false"
