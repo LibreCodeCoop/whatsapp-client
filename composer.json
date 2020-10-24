@@ -1,5 +1,6 @@
 {
     "require": {
+        "php": ">=7.3",
         "symfony/panther": "^0.7.1",
         "monolog/monolog": "^2.1",
         "irazasyed/telegram-bot-sdk": "^3.1",
@@ -20,6 +21,10 @@
         "phpcs" : "phpcs --standard=PSR12 -n src",
         "phpcbf" : "phpcbf --standard=PSR12 -n src",
         "unit" : "phpunit --coverage-clover ./tests/log/clover.xml --colors=always",
-        "unit-html" : "phpunit --coverage-html ./tests/log/ --colors=always"
+        "unit-html" : "phpunit --coverage-html ./tests/log/ --colors=always",
+        "test" : [
+            "@unit",
+            "@phpcs"
+        ]
     }
 }
