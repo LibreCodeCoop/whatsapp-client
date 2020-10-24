@@ -1,12 +1,13 @@
 language: php
 php:
+  - 7.3
   - 7.4
 
 before_script:
   - composer install --dev --no-interaction
 
 script:
-  - php vendor/bin/phpunit -c phpunit.xml
+  - composer test
 
 after_success:
-  - travis_retry php vendor/bin/php-coveralls -v
+  - php vendor/bin/php-coveralls --verbose
