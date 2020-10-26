@@ -3,9 +3,9 @@
 
 # WhatsApp web php client
 
-A client for WhatsApp web in PHP
+A client for WhatsApp web in PHP.
 
-## Firts run
+## First run
 
 
 Copy the file [`.env.example`](.env.example) to `.env` and put your Telegram Bot Token and the id of chat with your bot and go up the containers:
