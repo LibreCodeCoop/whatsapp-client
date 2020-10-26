@@ -21,7 +21,6 @@ class Client
     private $sessionFile;
     private $qrcodeCallback;
     private $logged = false;
-    private $running = false;
     /**
      * @var Wrapper
      */
@@ -92,8 +91,8 @@ class Client
 
     public function loop($callback)
     {
-        $this->running = true;
-        while ($this->running) {
+        $running = true;
+        while ($running) {
             $jsMessages = $this->WsapiWrapper->getBufferedNewMessages();
             if ($jsMessages) {
                 $callback($this, $jsMessages);
