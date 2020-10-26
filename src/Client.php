@@ -84,7 +84,7 @@ class Client
 
     public function sessionStart()
     {
-        if (!$this->loadSessionFronFile()) {
+        if (!$this->loadSessionFromFile()) {
             $this->login();
         }
         $this->WsapiWrapper = new Wrapper($this->client);
@@ -102,7 +102,7 @@ class Client
         }
     }
 
-    private function loadSessionFronFile()
+    private function loadSessionFromFile()
     {
         if (!file_exists($this->sessionFile)) {
             $this->logger->info('Session file does not exist: ' . $this->sessionFile);
@@ -140,7 +140,7 @@ class Client
             $this->logger->info('Invalid session');
             return false;
         }
-        $this->logger->info('Session loadded');
+        $this->logger->info('Session loaded');
         return true;
     }
 
