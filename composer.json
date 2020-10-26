@@ -4,7 +4,9 @@
         "symfony/panther": "^0.7.1",
         "monolog/monolog": "^2.1",
         "irazasyed/telegram-bot-sdk": "^3.1",
-        "vlucas/phpdotenv": "^5.1"
+        "vlucas/phpdotenv": "^5.1",
+        "ext-json": "*",
+        "ext-gd": "*"
     },
     "require-dev": {
         "symfony/console": "^5.1",
