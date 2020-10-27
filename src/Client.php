@@ -93,8 +93,8 @@ class Client
 
     public function loop($callback)
     {
-        $running = true;
-        while ($running) {
+        $this->running = true;
+        while ($this->running) {
             $jsMessages = $this->WsapiWrapper->getBufferedNewMessages();
             if ($jsMessages) {
                 $callback($this, $jsMessages);
