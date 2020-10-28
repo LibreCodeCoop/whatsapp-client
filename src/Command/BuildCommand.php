@@ -53,7 +53,6 @@ class BuildCommand extends Command
             }
             CLASS;
         file_put_contents(__DIR__ . '/../webwhatsapi/JSAdapter.php', $class);
-        
         $output->writeln('Done!');
         return Command::SUCCESS;
     }
