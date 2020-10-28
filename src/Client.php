@@ -23,6 +23,7 @@ class Client
     private $sessionFile;
     private $qrcodeCallback;
     private $logged = false;
+    private $running = false;
     /**
      * @var Wrapper
      */
