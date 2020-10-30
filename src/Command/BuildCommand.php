@@ -36,9 +36,9 @@ class BuildCommand extends Command
         $Client = new Client('http://selenium-hub:4444/wd/hub', $capabilities);
         $Client->sessionStart();
 
-        $availableFunctins = $Client->WsapiWrapper->getAvailableFunctions();
+        $availableFunctions = $Client->WsapiWrapper->getAvailableFunctions();
 
-        $methods = ' * @method ' . implode("\n * @method ", $availableFunctins);
+        $methods = ' * @method ' . implode("\n * @method ", $availableFunctions);
 
         $class = <<<CLASS
             <?php
@@ -53,7 +53,6 @@ class BuildCommand extends Command
             }
             CLASS;
         file_put_contents(__DIR__ . '/../webwhatsapi/JSAdapter.php', $class);
-        
         $output->writeln('Done!');
         return Command::SUCCESS;
     }

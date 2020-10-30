@@ -3,9 +3,11 @@
 namespace WhatsappClient;
 
 use Closure;
+use Exception;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverCapabilities;
+use Monolog\ErrorHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
@@ -61,7 +63,7 @@ class Client
             $this->logger->pushHandler($handler);
         }
         if ($settings['enable_error_handler']) {
-            $handler = new \Monolog\ErrorHandler($this->logger);
+            $handler = new ErrorHandler($this->logger);
             $handler->registerErrorHandler([], false);
             $handler->registerExceptionHandler();
             $handler->registerFatalHandler();
@@ -84,7 +86,7 @@ class Client
 
     public function sessionStart()
     {
-        if (!$this->loadSessionFronFile()) {
+        if (!$this->loadSessionFromFile()) {
             $this->login();
         }
         $this->WsapiWrapper = new Wrapper($this->client);
@@ -102,7 +104,7 @@ class Client
         }
     }
 
-    private function loadSessionFronFile()
+    private function loadSessionFromFile()
     {
         if (!file_exists($this->sessionFile)) {
             $this->logger->info('Session file does not exist: ' . $this->sessionFile);
@@ -127,12 +129,12 @@ class Client
             $noPopup = null;
             try {
                 $menu = $this->client->findElement(WebDriverBy::cssSelector('[data-testid="menu"][data-icon="menu"]'));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 try {
                     $popup = $this->client->findElement(WebDriverBy::cssSelector('[data-animate-modal-body="true"]'));
                     $errormsg = explode("\n", $popup->getText())[0];
                     $this->logger->info('Failure on load session: ' . $errormsg);
-                } catch (\Exception $noPopup) {
+                } catch (Exception $noPopup) {
                 }
             }
         } while (!empty($noPopup) || $errormsg);
@@ -140,7 +142,7 @@ class Client
             $this->logger->info('Invalid session');
             return false;
         }
-        $this->logger->info('Session loadded');
+        $this->logger->info('Session loaded');
         return true;
     }
 
@@ -158,11 +160,11 @@ class Client
                         call_user_func_array($this->qrcodeCallback, [$element->takeElementScreenshot(), $this]);
                     }
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
             try {
                 $menu = $this->client->findElement(WebDriverBy::cssSelector('[data-testid="menu"][data-icon="menu"]'));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
             sleep(1);
         } while (empty($menu));
