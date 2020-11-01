@@ -12,7 +12,8 @@
         "symfony/console": "^5.1",
         "squizlabs/php_codesniffer": "^3.5",
         "phpunit/phpunit": "^9",
-        "php-coveralls/php-coveralls": "^2.4"
+        "php-coveralls/php-coveralls": "^2.4",
+        "phpstan/phpstan": "^0.12.52"
     },
     "autoload": {
         "psr-4": {
@@ -22,11 +23,13 @@
     "scripts" : {
         "phpcs" : "phpcs --standard=PSR12 -n src",
         "phpcbf" : "phpcbf --standard=PSR12 -n src",
+        "phpstan" : "phpstan analyse src --level 8",
         "unit" : "phpunit --coverage-clover ./tests/log/clover.xml --colors=always",
         "unit-html" : "phpunit --coverage-html ./tests/log/ --colors=always",
         "test" : [
             "@unit",
-            "@phpcs"
+            "@phpcs",
+            "@phpstan"
         ]
     }
 }
