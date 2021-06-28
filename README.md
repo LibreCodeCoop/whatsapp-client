@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/LyseonTech/whatsapp-client/badge.svg?branch=master)](https://coveralls.io/github/LyseonTech/whatsapp-client?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/librecodecoop/whatsapp-client/badge.svg?branch=master)](https://coveralls.io/github/librecodecoop/whatsapp-client?branch=master)
 
 
 # WhatsApp web php client
