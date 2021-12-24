@@ -25,9 +25,15 @@ class BuildCommand extends Command
     {
         $output->writeln('Download JS dependency...');
 
+        $wapi = file_get_contents('https://raw.githubusercontent.com/mukulhase/WebWhatsapp-Wrapper/master/webwhatsapi/js/wapi.js');
+        $wapi = str_replace(
+            'webpackChunkbuild.push([',
+            '(window.webpackChunkbuild || window.webpackChunkwhatsapp_web_client).push([',
+            $wapi
+        );
         file_put_contents(
             __DIR__ . '/../webwhatsapi/js/wapi.js',
-            file_get_contents('https://raw.githubusercontent.com/mukulhase/WebWhatsapp-Wrapper/master/webwhatsapi/js/wapi.js')
+            $wapi
         );
 
         $output->writeln('Setting annotations...');

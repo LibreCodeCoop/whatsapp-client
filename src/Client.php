@@ -54,7 +54,7 @@ class Client
             'enable_error_handler' => true
         ];
         $settings = array_merge($defaultSettings, $settings);
-        if ($settings['logger']) {
+        if (!empty($settings['logger'])) {
             $this->logger = $settings['logger'];
         } else {
             $this->logger = new Logger($settings['name']);
@@ -135,6 +135,11 @@ class Client
                     $errormsg = explode("\n", $popup->getText())[0];
                     $this->logger->info('Failure on load session: ' . $errormsg);
                 } catch (Exception $noPopup) {
+                    try {
+                        $this->client->findElement(WebDriverBy::cssSelector('a[href*="how-to-log-in"]'));
+                        $this->login();
+                    } catch (Exception $howToLogin) {
+                    }
                 }
             }
         } while (!empty($noPopup) || $errormsg);
@@ -168,12 +173,18 @@ class Client
             }
             sleep(1);
         } while (empty($menu));
+        $this->dumpSession();
+    }
+
+    private function dumpSession()
+    {
+        $json = $this->client->executeScript('return localStorage');
+        file_put_contents($this->sessionFile, json_encode($json));
     }
 
     public function __destruct()
     {
-        $json = $this->client->executeScript('return localStorage');
-        file_put_contents($this->sessionFile, json_encode($json));
+        $this->dumpSession();
         $this->client->quit();
     }
 }

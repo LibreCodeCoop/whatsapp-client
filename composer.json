@@ -1,19 +1,19 @@
 {
     "require": {
-        "php": ">=7.3",
-        "symfony/panther": "^0.7.1",
-        "monolog/monolog": "^2.1",
-        "irazasyed/telegram-bot-sdk": "^3.1",
-        "vlucas/phpdotenv": "^5.1",
+        "php": ">=8.1",
+        "symfony/panther": "^2.0",
+        "monolog/monolog": "^2.3",
+        "vlucas/phpdotenv": "^5.4",
+        "irazasyed/telegram-bot-sdk": "^3.4",
         "ext-json": "*",
         "ext-gd": "*"
     },
     "require-dev": {
-        "symfony/console": "^5.1",
-        "squizlabs/php_codesniffer": "^3.5",
-        "phpunit/phpunit": "^9",
-        "php-coveralls/php-coveralls": "^2.4",
-        "phpstan/phpstan": "^0.12.52"
+        "symfony/console": "^6.0",
+        "squizlabs/php_codesniffer": "^3.6",
+        "phpunit/phpunit": "^9.5",
+        "php-coveralls/php-coveralls": "^2.5",
+        "phpstan/phpstan": "^1.2"
     },
     "autoload": {
         "psr-4": {

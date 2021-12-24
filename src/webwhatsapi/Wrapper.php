@@ -35,7 +35,7 @@ class Wrapper extends JSAdapter
         });
         $arguments[] = 'arguments[0]';
         return $this->client->executeAsyncScript(
-            'return WAPI.' . $method . '(' . implode(',', $arguments) . ')'
+            'return window.WAPI.' . $method . '(' . implode(',', $arguments) . ')'
         );
     }
 

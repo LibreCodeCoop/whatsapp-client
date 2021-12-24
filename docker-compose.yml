@@ -1,7 +1,7 @@
 version: '3.7'
 services:
-  php7:
-    build: ./.docker/php7
+  php:
+    build: ./.docker/php
     restart: unless-stopped
     volumes:
       - ./:/whatsapp
@@ -9,11 +9,15 @@ services:
     links:
       - selenium-hub
     environment:
-      XDEBUG_CONFIG: "remote_host=172.17.0.1 remote_enable=1"
-    command: composer install
+      - XDEBUG_CONFIG
+      - TZ
+      - TELEGRAM_BOT_TOKEN
+      - TELEGRAM_CHAT_ID
+      - LOG_DIR
 
   chrome:
-    image: selenium/node-chrome-debug:3.141.59-20200525
+    image: selenium/node-chrome:4.1.1-20211217
+    shm_size: 2gb
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -21,11 +25,13 @@ services:
     ports:
       - "5900:5900"
     environment:
-      - HUB_HOST=selenium-hub
-      - HUB_PORT=4444
+      - SE_EVENT_BUS_HOST
+      - SE_EVENT_BUS_PUBLISH_PORT
+      - SE_EVENT_BUS_SUBSCRIBE_PORT
 
   firefox:
-    image: selenium/node-firefox-debug:3.141.59-20200525
+    image: selenium/node-firefox:4.1.1-20211217
+    shm_size: 2gb
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -33,10 +39,13 @@ services:
     ports:
       - "5901:5900"
     environment:
-      - HUB_HOST=selenium-hub
-      - HUB_PORT=4444
+      - SE_EVENT_BUS_HOST
+      - SE_EVENT_BUS_PUBLISH_PORT
+      - SE_EVENT_BUS_SUBSCRIBE_PORT
 
   selenium-hub:
-    image: selenium/hub:3.141.59-20200525
+    image: selenium/hub:4.1.1-20211217
     ports:
-      - "4443:4444"
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"

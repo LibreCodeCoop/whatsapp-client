@@ -12,7 +12,7 @@ Copy the file [`.env.example`](.env.example) to `.env` and put your Telegram Bot
 
 ```bash
 docker-compose up -d
-docker-compose exec php7 ./bin/build
+docker-compose exec php ./bin/build
 ```
 
 ## Run
@@ -25,7 +25,7 @@ docker-compose up -d
 
 Run this command and read the content of file [example.php](example.php):
 ```bash
-docker-compose exec php7 php example.php
+docker-compose exec php php example.php
 ```
 
 * List running browsers:

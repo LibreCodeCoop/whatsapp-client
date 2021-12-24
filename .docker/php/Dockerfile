@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.1-fpm
 
 RUN apt-get update
 
@@ -22,18 +22,14 @@ RUN docker-php-ext-configure gd --with-freetype=/usr/include/ \
                                 --enable-gd-jis-conv \
     && docker-php-ext-install gd
 
-RUN pecl install xdebug-2.9.6 \
+RUN pecl install xdebug-3.1.2 \
     && docker-php-ext-enable xdebug
 
 RUN apt-get install -y tzdata
 
-RUN cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-RUN echo "America/Sao_Paulo" >  /etc/timezone
-
-RUN curl https://getcomposer.org/composer.phar --output /usr/bin/composer
-RUN chmod +x /usr/bin/composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY config/php.ini /usr/local/etc/php/conf.d/
 WORKDIR /whatsapp
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["sh", "/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT [ "bash", "/usr/local/bin/entrypoint.sh" ]
